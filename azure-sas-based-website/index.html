@@ -1,0 +1,23 @@
+<html>
+<body>
+    <p><b>Files:</b></p>
+    <table id="file-table" multiple style="text-align:left; border: 1px solid black; border-collapse: collapse;">
+        <tr><th>Filename</th></tr>
+    </table>
+</body>
+<script>
+const fileTable = document.getElementById("file-table");
+var token = location.search
+var containerName = location.pathname.split('/')[1]
+var url = location.origin + '/' + containerName
+var xmlHttp = new XMLHttpRequest();
+xmlHttp.open( "GET", `${url}${token}&restype=container&comp=list` ,false)
+xmlHttp.send( null );
+var names = xmlHttp.responseXML.getElementsByTagName('Name')
+for (let item of names) {
+    fileTable.innerHTML += `<tr><th>
+        <a href=${url}/${item.textContent}${token}> ${item.textContent} </a>
+        </th></tr>`
+}
+</script>
+</html>
