@@ -1,0 +1,46 @@
+<!-- index.html https://docs.microsoft.com/en-us/azure/storage/blobs/quickstart-blobs-javascript-browser#setting-up -->
+<html>
+<head> FHJKDHK </head>
+<body>
+    <button id="create-container-button">Create container</button>
+    <button id="delete-container-button">Delete container</button>
+    <button id="select-button">Select and upload files</button>
+    <input type="file" id="file-input" multiple style="display: none;" />
+    <button id="list-button">List files</button>
+    <button id="delete-button">Delete selected files</button>
+    <p><b>Status:</b></p>
+    <p id="status" style="height:160px; width: 593px; overflow: scroll;" />
+    <p><b>Files:</b></p>
+    <table id="file-table" multiple style="text-align:left; border: 1px solid black; border-collapse: collapse;">
+        <tr>
+            <th>Filename</th>
+        </tr>
+    </table>
+</body>
+
+<script>
+//var scr = document.createElement('script');
+const fileTable = document.getElementById("file-table");
+
+var token = location.search
+var containerName = location.pathname.split('/')[1]
+var url = location.origin + '/' + containerName
+var xmlHttp = new XMLHttpRequest();
+xmlHttp.open( "GET", `${url}${token}&restype=container&comp=list` ,false)
+xmlHttp.send( null );
+var names = xmlHttp.responseXML.getElementsByTagName('Name')
+for (let item of names) {
+    fileTable.innerHTML += `<tr><th>
+        <a href=${url}/${item.textContent}${token}> ${item.textContent} </a>
+        </th></tr>`
+}
+
+//console.info(`/${location.pathname.split('/')[1]}/azure-sa-test.e31bb0bc.js${token}`)
+//scr.setAttribute('src', `/${location.pathname.split('/')[1]}/azure-sa-test.e31bb0bc.js${token}`);
+//scr.setAttribute('type', 'text/javascript');
+//scr.onload = function(){ console.log('loaded')}
+//document.getElementsByTagName('head')[0].appendChild(scr);
+
+</script>
+
+</html>
